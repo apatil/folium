@@ -616,7 +616,7 @@ class Map(object):
         if not popup_on:
             return 'var no_pop = null;'
         else:
-            if isinstance(popup, str):
+            if isinstance(popup, str) or isinstance(popup, unicode):
                 popup_temp = self.env.get_template('simple_popup.js')
                 return popup_temp.render({'pop_name': mk_name + str(count),
                                           'pop_txt': json.dumps(popup),
@@ -653,6 +653,8 @@ class Map(object):
                                           'max_width': max_width,
                                           'json_out': json_out,
                                           'vega_id': vega_id})
+            else:
+                raise TypeError("Unrecognized popup type")
 
     @iter_obj('geojson')
     def geo_json(self, geo_path=None, geo_str=None, data_out='data.json',
